@@ -87,7 +87,7 @@ export default function BookingsCtrl(BookingsService) {
   }
 
   function clearFlight() {
-    vm.booking = vm.booking.remove('flight')
+    vm.booking = vm.booking.remove('flight').remove('hotel')
   }
 
   function clearHotel() {

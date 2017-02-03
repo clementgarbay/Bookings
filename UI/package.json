@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "serve": "babel -d dist/ server.js && node dist/server.js",
-    "start": "webpack --watch"
+    "start": "webpack",
+    "start:watch": "npm start -- --watch"
   },
   "main": "dist/server.js",
   "repository": {},
