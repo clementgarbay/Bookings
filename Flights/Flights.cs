@@ -17,7 +17,7 @@ namespace Flights
 
         public DataSet Get(string departureCity, string arrivalCity)
         {
-            return GetPreparedCommand("CMD_GET_ARRIVAL_CITY",
+            return GetPreparedCommand("CMD_GET_FLIGHTS",
                 new Dictionary<string, Tuple<SqlDbType, String>>()
                 {
                     {"@departure_city",  Tuple.Create(SqlDbType.VarChar, departureCity) },
@@ -28,7 +28,7 @@ namespace Flights
 
         public DataSet GetArrivalCities(string departureCity)
         {
-            return GetPreparedCommand("CMD_GET_FLIGHTS",
+            return GetPreparedCommand("CMD_GET_ARRIVAL_CITY",
                 new Dictionary<string, Tuple<SqlDbType, String>>()
                 {
                     {"@departure_city",  Tuple.Create(SqlDbType.VarChar, departureCity) }
