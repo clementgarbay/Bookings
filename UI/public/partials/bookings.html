@@ -1,0 +1,61 @@
+<div class="row col-sm-12" style="margin-top: 50px;">
+
+  <div ng-if="vm.booking.flight">
+    <button type="button" class="close" title="Annuler la réservation du vol" ng-click="vm.clearFlight()">&times; </button>
+    <div class="jumbotron">
+      <h1>{{vm.booking.flight.departureCity}} > {{vm.booking.flight.arrivalCity}}</h1>
+      <p>{{vm.booking.flight.airline}}, {{vm.booking.flight.date | date:"'le' dd/MM/yyyy 'à' hh:mm"}}</p>
+      <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>-->
+    </div>
+  </div>
+
+  <div ng-if="vm.booking.hotel">
+    <button type="button" class="close" title="Annuler la réservation de l'hotel'" ng-click="vm.clearHotel()">&times;</button>
+    <div class="jumbotron">
+      <h1>{{vm.booking.hotel.name}}</h1>
+    </div>
+  </div>
+
+  <form>
+
+    <div id="flightForm" ng-if="!vm.booking.flight">
+      <div class="form-group">
+        <label for="departureCity">Ville de départ</label>
+        <ui-select id="departureCity" tagging ng-model="vm.booking.departureCity" ng-disabled="!vm.departureCities" on-select="vm.selectDepartureCity($item)">
+          <ui-select-match placeholder="Rechercher une ville de départ...">{{$select.selected}}</ui-select-match>
+          <ui-select-choices repeat="cityName in vm.departureCities | filter: $select.search track by $index">
+            <div>{{cityName}}</div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+
+      <div class="form-group">
+        <label for="arrivalCity">Ville d'arrivée</label>
+        <ui-select id="arrivalCity" tagging ng-model="vm.booking.arrivalCity" ng-disabled="!vm.arrivalCities" on-select="vm.selectArrivalCity($item)">
+          <ui-select-match placeholder="Rechercher une ville d'arrivée...">{{$select.selected}}</ui-select-match>
+          <ui-select-choices repeat="cityName in vm.arrivalCities | filter: $select.search track by $index">
+            <div>{{cityName}}</div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-2">
+          <label for="nbTickets">Nombre de places</label>
+          <input type="number" class="form-control" id="nbTickets" ng-model="vm.booking.nbTickets">
+        </div>
+      </div>
+
+      <flights flights="vm.flights" on-flight-clicked="vm.selectFlight(flight)" ng-show="vm.flights"></flights>
+    </div>
+
+    
+    <hotels hotels="vm.hotels" on-hotel-clicked="vm.selectHotel(hotel)" ng-show="vm.booking.flight && vm.hotels && !vm.booking.hotel"></hotels>
+
+    <div class="text-center" style="margin: 60px 0;">
+      <button type="submit" class="btn btn-primary btn-lg">Valider</button>
+    </div>
+
+  </form>
+  
+</div>
