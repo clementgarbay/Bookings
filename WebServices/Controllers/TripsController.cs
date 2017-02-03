@@ -21,28 +21,28 @@ namespace WebServices.Controllers
         }
 
         // POST api/trips
-        public void Post([FromBody]dynamic value)
+        public void Post([FromBody] BookingsData data)
         {
-            Console.WriteLine(value);
-            BookingsData data = new BookingsData();
+            Console.WriteLine(data);
+            /*BookingsData data = new BookingsData();
 
             // flight
-            data.departure_city = get(data, "departure_city");
+            data.departure_city = get(value, "departure_city");
             data.departure_date = value.GetType().GetProperty("departure_date").GetValue(value, null);
-            data.arrival_city = get(data, "arrival_city");
-            data.company = get(data, "company");
+            data.arrival_city = get(value, "arrival_city");
+            data.company = get(value, "company");
 
             // hotel
-            data.city = get(data, "city");
-            data.name = get(data, "name");
-            data.rating = get(data, "rating");
+            data.city = get(value, "city");
+            data.name = get(value, "name");
+            data.rating = get(value, "rating");
 
             // user
-            data.rib = get(data, "rib");
-            data.email = get(data, "email");
-            data.first_name = get(data, "first_name");
-            data.last_name = get(data, "last_name");
-
+            data.rib = get(value, "rib");
+            data.email = get(value, "email");
+            data.first_name = get(value, "first_name");
+            data.last_name = get(value, "last_name");
+            */
 
             BookingsManager b = new BookingsManager();
             b.Reserve(data);

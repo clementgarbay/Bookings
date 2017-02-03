@@ -50,21 +50,21 @@ namespace Bookings
     public class BookingsData
     {
         // flight
-        public string departure_city;
-        public DateTime departure_date;
-        public string arrival_city;
-        public string company;
+        public string departure_city { get; set; }
+        public DateTime departure_date { get; set; }
+        public string arrival_city { get; set; }
+        public string company { get; set; }
 
         // hotel
-        public string city;
-        public string name;
-        public string rating;
+        public string city { get; set; }
+        public string name { get; set; }
+        public string rating { get; set; }
 
         // user
-        public string rib;
-        public string email;
-        public string first_name;
-        public string last_name;
+        public string rib { get; set; }
+        public string email { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
     }
 
 }
