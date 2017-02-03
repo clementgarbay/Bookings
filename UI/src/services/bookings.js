@@ -4,15 +4,12 @@ export default function BookingsService($http) {
 
   this.getDepartureCities = () => {
     return $http.get(`${API_ENDPOINT}/api/flights`)
-        .then(res => {
-          console.log(res)
-          return res.data
-        })
+        .then(res => res.data.map(e => e.departure_city))
   }
 
   this.getArrivalCities = departureCity => {
     return $http.get(`${API_ENDPOINT}/api/flights/${departureCity}`)
-        .then(res => res.data)
+        .then(res => res.data.map(e => e.arrival_city))
   }
 
   this.getFlights = (departureCity, arrivalCity) => {

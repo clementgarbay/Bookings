@@ -13,8 +13,8 @@ export default function BookingsCtrl(BookingsService) {
   })
 
   vm.booking = new Booking()
-  vm.departureCities = ['Nantes', 'Paris', 'Hong-Kong']
-  vm.arrivalCities = ['Paris', 'New York', 'Berlin']
+  vm.departureCities = []
+  vm.arrivalCities = []
   vm.flights = []
   vm.hotels = []
 
