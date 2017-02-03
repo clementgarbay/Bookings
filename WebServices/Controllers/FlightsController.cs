@@ -1,30 +1,45 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Net;
+using System.Net.Http;
+using System.Web.Helpers;
 using System.Web.Http;
+using System.Web.Http.Results;
+using System.Web.Mvc;
+using Newtonsoft.Json;
 
 namespace WebServices.Controllers
 {
     public class FlightsController : ApiController
     {
-        private Flights.Flights flightsManager = new Flights.Flights();
+        private readonly Flights.Flights flightsManager = new Flights.Flights();
 
-        [Route("api/flights/{departureCity}/{arrivalCity}")]
-        public IEnumerable<string> Get(string departureCity, string arrivalCity)
+        [System.Web.Http.Route("api/flights/{departureCity}/{arrivalCity}")]
+        public HttpResponseMessage Get(string departureCity, string arrivalCity)
         {
-            DataSet res = flightsManager.Get(departureCity, arrivalCity);
-            return new string[] { "flight1", "flight2" };
+            return ConformJsonResponse(flightsManager.Get(departureCity, arrivalCity));
         }
 
-        [Route("api/flights/{departureCity}")]
-        public IEnumerable<string> GetArrivalCities(string departureCity)
+        [System.Web.Http.Route("api/flights/{departureCity}")]
+        public HttpResponseMessage GetArrivalCities(string departureCity)
         {
-            return new string[] { "arrivalCity1", "arrivalCity2" };
+            return ConformJsonResponse(flightsManager.GetArrivalCities(departureCity));
         }
 
         // GET api/flights -> departure cities
-        public IEnumerable<string> GetDepartureCities()
+        public HttpResponseMessage GetDepartureCities()
         {
-            return new string[] {"departureCityOne", "departureCityTwo"};
+            return ConformJsonResponse(flightsManager.GetDepartureCities());
+        }
+
+        protected HttpResponseMessage ConformJsonResponse(DataSet dataSet)
+        {
+            string result = JsonConvert.SerializeObject(dataSet.Tables[0]);
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(result, System.Text.Encoding.UTF8, "application/json");
+
+            return response;
         }
     }
 }
