@@ -177,6 +177,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bookings\Bookings.csproj">
+      <Project>{b86d27dd-d202-48d1-9b48-85cb13048577}</Project>
+      <Name>Bookings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Flights\Flights.csproj">
       <Project>{db6cd278-56cd-4604-af12-9dce8e70093f}</Project>
       <Name>Flights</Name>
