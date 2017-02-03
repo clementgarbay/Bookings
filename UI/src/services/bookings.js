@@ -7,7 +7,6 @@ export default function BookingsService($http) {
         .then(res => {
           console.log(res)
           return res.data
-        
         })
   }
 

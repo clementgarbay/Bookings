@@ -5,50 +5,30 @@ export default function BookingsCtrl(BookingsService) {
 
   const Booking = Record({
     departureCity: null,
-    arrivalCities: null,
+    arrivalCity: null,
     flight: null,
     hotel: null,
-    nbTickets: 1
+    nbTickets: 1,
+    date: new Date().getTime()
   })
 
   vm.booking = new Booking()
-  vm.departureCities = ['Nantes', 'OK', 'Hong-Kong']
-  vm.arrivalCities = []
+  vm.departureCities = ['Nantes', 'Paris', 'Hong-Kong']
+  vm.arrivalCities = ['Paris', 'New York', 'Berlin']
+  vm.flights = []
+  vm.hotels = []
 
+  // Functions for update the booking
   vm.selectDepartureCity = selectDepartureCity
   vm.selectArrivalCity = selectArrivalCity
   vm.selectFlight = selectFlight
   vm.selectHotel = selectHotel
+  vm.changeNbTickets = changeNbTickets
+  vm.changeDate = changeDate
+
   vm.clearFlight = clearFlight
   vm.clearHotel = clearHotel
-
-  vm.flights = [
-    {
-      departureCity: 'Nantes',
-      arrivalCity: 'Paris',
-      airline: 'Air France',
-      date: new Date().getTime()
-    },
-    {
-      departureCity: 'Nantes',
-      arrivalCity: 'Toronto',
-      airline: 'Air France',
-      date: new Date().getTime()
-    }
-  ]
-
-  vm.hotels = [
-    {
-      name: 'Le fleur hotel',
-      city: 'Paris',
-      rating: '5/5'
-    },
-    {
-      name: 'Le fleur hotel 2',
-      city: 'Toronto',
-      rating: '4/5'
-    }
-  ]
+  vm.validateBooking = validateBooking
 
   init()
 
@@ -86,12 +66,24 @@ export default function BookingsCtrl(BookingsService) {
     vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity, flight: vm.booking.flight, hotel: hotel})
   }
 
+  // TODO: View can't update immutable record! Use these functions
+  function changeNbTickets(nbTickets) {
+    vm.booking = vm.booking.merge({nbTickets})
+  }
+  function changeDate(date) {
+    vm.booking = vm.booking.merge({date})
+  }
+
   function clearFlight() {
-    vm.booking = vm.booking.remove('flight').remove('hotel')
+    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity})
   }
 
   function clearHotel() {
-    vm.booking = vm.booking.remove('hotel')
+    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity, flight: vm.booking.flight})
+  }
+
+  function validateBooking() {
+    // TODO
   }
 
 }

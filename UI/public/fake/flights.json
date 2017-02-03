@@ -1,0 +1,14 @@
+[
+  {
+    "departureCity": "Nantes",
+    "arrivalCity": "Paris",
+    "airline": "Air France",
+    "date": "1486136676974"
+  },
+  {
+    "departureCity": "Nantes",
+    "arrivalCity": "Toronto",
+    "airline": "Air France",
+    "date": "1486136676974"
+  }
+]
