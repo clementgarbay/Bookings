@@ -10,27 +10,46 @@ namespace Hotels
 {
     public class Hotels
     {
-        public DataSet getHotels()
-        {
-//            SqlConnection connection = new SqlConnection();
-//            connection.ConnectionString = "Data Source=(local)\\SQLEXPRESS;Initial Catalog=BOOKINGS_FLIGHTS_READ_ONLY;Integrated Security=True";
-//            connection.Open();
-//
-//            SqlCommand command = new SqlCommand("sp_credit", connection);
-//            command.CommandType = CommandType.StoredProcedure;
-//
-//            command.Parameters.Add("@NC", SqlDbType.Int, sizeof(int));
-//            command.Parameters["@NC"].Value = Num;
-//
-//            command.Parameters.Add("@M", SqlDbType.Int, sizeof(int));
-//            command.Parameters["@M"].Value = Montant;
-//
-//            int res = Convert.ToInt16(command.ExecuteScalar());
-//
-//            connection.Close();
-//            return res;
+        SqlConnection connection = new SqlConnection();
 
-            return new DataSet();
+        public Hotels()
+        {
+            connection.ConnectionString = "Data Source=(local)\\SQLEXPRESS;Initial Catalog=BOOKINGS_HOTELS_READ_ONLY;Integrated Security=True";
+
+        }
+
+        public DataSet Get(string city)
+        {
+            return GetPreparedCommand("CMD_GET_HOTELS",
+                new Dictionary<string, Tuple<SqlDbType, String>>()
+                {
+                    {"@city",  Tuple.Create(SqlDbType.VarChar, city) },
+                }
+            );
+        }
+
+        protected DataSet GetPreparedCommand(String storedProcedureName, Dictionary<String, Tuple<SqlDbType, String>> parameters)
+        {
+            connection.Open();
+            DataSet ds = new DataSet(storedProcedureName);
+
+            SqlCommand command = new SqlCommand(storedProcedureName, connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            foreach (var keyValuePair in parameters)
+            {
+                command.Parameters.Add(keyValuePair.Key, keyValuePair.Value.Item1);
+                command.Parameters[keyValuePair.Key].Value = keyValuePair.Value.Item2;
+            }
+
+            SqlDataAdapter da = new SqlDataAdapter { SelectCommand = command };
+
+            da.Fill(ds);
+            connection.Close();
+
+            return ds;
         }
     }
 }
