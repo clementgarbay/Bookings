@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Le fleur hotel",
+    "city": "Paris",
+    "rating": "5/5"
+  },
+  {
+    "name": "Le fleur hotel 2",
+    "city": "Toronto",
+    "rating": "4/5"
+  }
+]
