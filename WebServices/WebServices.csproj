@@ -146,6 +146,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\TripsController.cs" />
     <Compile Include="Controllers\FlightsController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -171,6 +172,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Flights\Flights.csproj">
+      <Project>{db6cd278-56cd-4604-af12-9dce8e70093f}</Project>
+      <Name>Flights</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hotels\Hotels.csproj">
+      <Project>{f1a242c4-cbee-4ab4-ab11-cd6dbdb1a6b1}</Project>
+      <Name>Hotels</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
