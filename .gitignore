@@ -1,5 +1,6 @@
 .vscode
-UI/public/*.bundle.js
+UI/public/*.bundle.*
+UI/public/fonts
 
 ### Csharp ###
 ## Ignore Visual Studio temporary files, build results, and
