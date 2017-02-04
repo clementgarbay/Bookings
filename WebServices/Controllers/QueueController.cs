@@ -9,23 +9,19 @@ using System.Data;
 using Newtonsoft.Json;
 using Bookings;
 using System.ComponentModel;
+using BookingsManager;
 
 namespace WebServices.Controllers
 {
-    public class TripsController: ApiController
+    public class QueueController: ApiController
     {
-        // GET api/trips
+        // GET api/queue
         public IEnumerable<string> Get()
         {
-            return new string[] { "trip1", "trip2" };
-        }
-
-        // POST api/trips
-        public void Post([FromBody] BookingsData data)
-        {
-            Console.WriteLine(data);
-            Bookings.BookingsManager b = new Bookings.BookingsManager();
-            b.Reserve(data);
+            Console.WriteLine("Bonjour");
+            QueueConsumer consumer = new QueueConsumer();
+            consumer.consume();
+            return new string[] { };
         }
     }
 }

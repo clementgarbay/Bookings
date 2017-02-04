@@ -161,6 +161,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\QueueController.cs" />
     <Compile Include="Controllers\TripsController.cs" />
     <Compile Include="Controllers\FlightsController.cs" />
     <Compile Include="Controllers\HotelsController.cs" />
@@ -192,6 +193,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BookingsManager\BookingsManager.csproj">
+      <Project>{a69ce1dd-7b4f-4a59-9daf-218262eac75f}</Project>
+      <Name>BookingsManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bookings\Bookings.csproj">
       <Project>{b86d27dd-d202-48d1-9b48-85cb13048577}</Project>
       <Name>Bookings</Name>

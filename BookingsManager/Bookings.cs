@@ -27,6 +27,7 @@ namespace BookingsManager
             catch (Exception e)
             {
                 Console.WriteLine("Error when BookingManager.book " + e);
+                throw e;
             }
             return addSuccess;
         }

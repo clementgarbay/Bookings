@@ -16,7 +16,8 @@ namespace BookingHotels
             SqlConnection MyC = new SqlConnection();
             MyC.ConnectionString = "Data Source=(local);Initial Catalog=BOOKINGS_HOTELS;Integrated Security = true";
             MyC.Open();
-            SqlCommand MyCom = new SqlCommand("CMD_START", MyC);
+            SqlCommand MyCom = new SqlCommand("CMD_ADD", MyC);
+            MyCom.CommandType = CommandType.StoredProcedure;
             MyCom.Parameters["@city"].Value = data.city;
             MyCom.Parameters.Add("@name", SqlDbType.Text);
             MyCom.Parameters["@name"].Value = data.name;
@@ -31,6 +32,7 @@ namespace BookingHotels
             MyCom.Parameters.Add("@last_name", SqlDbType.Text);
             MyCom.Parameters["@last_name"].Value = data.last_name;
             //int Res = Convert.ToInt32(MyCom.ExecuteScalar());
+            MyCom.ExecuteScalar();
             MyCom.Dispose();
             MyC.Close();
             //return Res;

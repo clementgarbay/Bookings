@@ -16,9 +16,10 @@ namespace BookingFlights
         {
 
             SqlConnection MyC = new SqlConnection();
-            MyC.ConnectionString = "Data Source=(local);Initial Catalog=BOOKINGS_HOTELS;Integrated Security = true";
+            MyC.ConnectionString = "Data Source=(local)\\SQLEXPRESS;Initial Catalog=BOOKINGS_FLIGHTS;Integrated Security = true";
             MyC.Open();
-            SqlCommand MyCom = new SqlCommand("CMD_START", MyC);
+            SqlCommand MyCom = new SqlCommand("CMD_ADD", MyC);
+            MyCom.CommandType = CommandType.StoredProcedure;
             MyCom.Parameters.Add("@departure_city", SqlDbType.Text);
             MyCom.Parameters["@departure_city"].Value = data.departure_city;
             MyCom.Parameters.Add("@departure_date", SqlDbType.DateTime);
@@ -34,6 +35,7 @@ namespace BookingFlights
             MyCom.Parameters["@first_name"].Value = data.first_name;
             MyCom.Parameters.Add("@last_name", SqlDbType.Text);
             MyCom.Parameters["@last_name"].Value = data.last_name;
+            MyCom.ExecuteScalar();
             //int Res = Convert.ToInt32(MyCom.ExecuteScalar());
             MyCom.Dispose();
             MyC.Close();
