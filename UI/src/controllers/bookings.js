@@ -1,34 +1,23 @@
-import { Record } from 'immutable'
+import Booking from '../models/booking'
 
 export default function BookingsCtrl(BookingsService) {
   const vm = this
 
-  const Booking = Record({
-    departureCity: null,
-    arrivalCity: null,
-    flight: null,
-    hotel: null,
-    nbTickets: 1,
-    date: new Date().getTime()
-  })
-
-  vm.booking = new Booking()
+  vm.booking = new Booking().toJS()
   vm.departureCities = []
   vm.arrivalCities = []
   vm.flights = []
   vm.hotels = []
 
-  // Functions for update the booking
+  // Functions for the different booking steps
   vm.selectDepartureCity = selectDepartureCity
   vm.selectArrivalCity = selectArrivalCity
   vm.selectFlight = selectFlight
   vm.selectHotel = selectHotel
-  vm.changeNbTickets = changeNbTickets
-  vm.changeDate = changeDate
 
   vm.clearFlight = clearFlight
   vm.clearHotel = clearHotel
-  vm.validateBooking = validateBooking
+  vm.saveBooking = saveBooking
 
   init()
 
@@ -39,7 +28,7 @@ export default function BookingsCtrl(BookingsService) {
   }
 
   function selectDepartureCity(cityName) {
-    vm.booking = new Booking({departureCity: cityName})
+    vm.booking = new Booking({departureCity: cityName}).toJS()
 
     BookingsService
       .getArrivalCities(cityName)
@@ -49,7 +38,7 @@ export default function BookingsCtrl(BookingsService) {
   }
 
   function selectArrivalCity(cityName) {
-    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: cityName})
+    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: cityName}).toJS()
 
     BookingsService
       .getFlights(vm.booking.departureCity, vm.booking.arrivalCity)
@@ -59,31 +48,31 @@ export default function BookingsCtrl(BookingsService) {
   }
 
   function selectFlight(flight) {
-    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity, flight: flight})
+    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity, flight: flight}).toJS()
+
+    BookingsService
+      .getHotels(vm.booking.arrivalCity)
+      .then(hotels => {
+        vm.hotels = hotels
+      })
   }
 
   function selectHotel(hotel) {
-    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity, flight: vm.booking.flight, hotel: hotel})
-  }
-
-  // TODO: View can't update immutable record! Use these functions
-  function changeNbTickets(nbTickets) {
-    vm.booking = vm.booking.merge({nbTickets})
-  }
-  function changeDate(date) {
-    vm.booking = vm.booking.merge({date})
+    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity, flight: vm.booking.flight, hotel: hotel}).toJS()
   }
 
   function clearFlight() {
-    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity})
+    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity}).toJS()
   }
 
   function clearHotel() {
-    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity, flight: vm.booking.flight})
+    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity, flight: vm.booking.flight}).toJS()
   }
 
-  function validateBooking() {
-    // TODO
+  function saveBooking() {
+    BookingsService
+      .save(vm.booking)
+      .then(() => console.log('ok'))
   }
 
 }

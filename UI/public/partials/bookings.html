@@ -21,7 +21,7 @@
     <div id="flightPanel" ng-if="!vm.booking.flight">
       <div class="form-group">
         <label for="booking_departureCity">Ville de départ</label>
-        <ui-select id="booking_departureCity" tagging ng-model="_" ng-disabled="!vm.departureCities" on-select="vm.selectDepartureCity($item)">
+        <ui-select id="booking_departureCity" tagging ng-model="_" on-select="vm.selectDepartureCity($item)">
           <ui-select-match placeholder="Rechercher une ville de départ...">{{$select.selected}}</ui-select-match>
           <ui-select-choices repeat="cityName in vm.departureCities | filter: $select.search track by $index">
             <div>{{cityName}}</div>
@@ -31,7 +31,7 @@
 
       <div class="form-group">
         <label for="booking_arrivalCity">Ville d'arrivée</label>
-        <ui-select id="booking_arrivalCity" tagging ng-model="_" ng-disabled="!vm.arrivalCities" on-select="vm.selectArrivalCity($item)">
+        <ui-select id="booking_arrivalCity" tagging ng-model="_" ng-disabled="!vm.arrivalCities.length" on-select="vm.selectArrivalCity($item)">
           <ui-select-match placeholder="Rechercher une ville d'arrivée...">{{$select.selected}}</ui-select-match>
           <ui-select-choices repeat="cityName in vm.arrivalCities | filter: $select.search track by $index">
             <div>{{cityName}}</div>
@@ -58,8 +58,20 @@
       <hotels hotels="vm.hotels" on-hotel-clicked="vm.selectHotel(hotel)" ng-show="vm.hotels.length"></hotels>
     </div>
 
-    <div class="text-center" style="margin: 60px 0;" ng-if="vm.booking.flight && vm.booking.hotel">
-      <button type="submit" class="btn btn-success btn-lg" ng-click="vm.validateBooking()">Valider</button>
+    <div id="profilePanel" ng-if="vm.booking.hotel && vm.booking.flight">
+      <div class="col-sm-6">
+        <label for="booking_lastName">Nom</label>
+        <input type="text" class="form-control" id="booking_lastName" ng-model="vm.booking.lastName">
+      </div>
+
+      <div class="col-sm-6">
+        <label for="booking_firstName">Prénom</label>
+        <input type="text" class="form-control" id="booking_firstName" ng-model="vm.booking.firstName">
+      </div>
+
+      <div class="text-center" style="margin: 60px 0;" ng-disabled="!vm.booking.lastName || !vm.booking.firstName">
+        <button type="submit" class="btn btn-success btn-lg" ng-click="vm.saveBooking()">Valider</button>
+      </div>
     </div>
 
   </form>
