@@ -1,24 +1,24 @@
 <div class="row col-sm-12" style="margin-top: 50px;">
 
-  <div ng-if="vm.booking.flight">
+  <div ng-if="vm.state.flight">
     <button type="button" class="close" title="Annuler la réservation du vol" style="margin-right: 5px;" ng-click="vm.clearFlight()">&times; </button>
     <div class="jumbotron">
-      <h1>{{vm.booking.flight.departureCity}} > {{vm.booking.flight.arrivalCity}}</h1>
-      <p>{{vm.booking.flight.airline}}, {{vm.booking.flight.date | date:"'le' dd/MM/yyyy 'à' hh:mm"}}</p>
-      <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>-->
+      <h1>{{vm.state.flight.departure_city}} > {{vm.state.flight.arrival_city}}</h1>
+      <p>{{vm.state.flight.company}}, {{vm.state.flight.departure_date | date:"'le' dd/MM/yyyy 'à' hh:mm"}}</p>
     </div>
   </div>
 
-  <div ng-if="vm.booking.hotel">
+  <div ng-if="vm.state.hotel">
     <button type="button" class="close" title="Annuler la réservation de l'hotel'" style="margin-right: 5px;" ng-click="vm.clearHotel()">&times;</button>
     <div class="jumbotron">
-      <h1>{{vm.booking.hotel.name}}</h1>
+      <h1>{{vm.state.hotel.name}}</h1>
+      <p>{{vm.state.hotel.city}}</p>
     </div>
   </div>
 
   <form>
 
-    <div id="flightPanel" ng-if="!vm.booking.flight">
+    <div id="flightPanel" ng-if="!vm.state.flight">
       <div class="form-group">
         <label for="booking_departureCity">Ville de départ</label>
         <ui-select id="booking_departureCity" tagging ng-model="_" on-select="vm.selectDepartureCity($item)">
@@ -41,37 +41,50 @@
 
       <div class="form-group row">
         <div class="col-sm-2">
-          <label for="booking_nbTickets">Nombre de places</label>
-          <input type="number" class="form-control" id="booking_nbTickets" ng-model="vm.booking.nbTickets">
-        </div>
-
-        <div class="col-sm-2">
-          <label for="booking_date">Date</label>
-          <input type="date" class="form-control" id="booking_date" ng-model="vm.booking.date">
+          <label for="booking_date">Date de départ</label>
+          <input type="date" class="form-control" id="booking_date" ng-model="vm.state.date">
         </div>
       </div>
 
       <flights flights="vm.flights" on-flight-clicked="vm.selectFlight(flight)" ng-show="vm.flights.length"></flights>
     </div>
 
-    <div id="hotelPanel" ng-if="!vm.booking.hotel && vm.booking.flight">
+    <div id="hotelPanel" ng-if="!vm.state.hotel && vm.state.flight">
       <hotels hotels="vm.hotels" on-hotel-clicked="vm.selectHotel(hotel)" ng-show="vm.hotels.length"></hotels>
     </div>
 
-    <div id="profilePanel" ng-if="vm.booking.hotel && vm.booking.flight">
-      <div class="col-sm-6">
-        <label for="booking_lastName">Nom</label>
-        <input type="text" class="form-control" id="booking_lastName" ng-model="vm.booking.lastName">
+    <div id="profilePanel" ng-if="vm.state.hotel && vm.state.flight">
+      
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <label for="booking_lastName">Nom</label>
+          <input type="text" class="form-control" id="booking_lastName" ng-model="vm.state.user.lastName">
+        </div>
+
+        <div class="col-sm-6 form-group">
+          <label for="booking_firstName">Prénom</label>
+          <input type="text" class="form-control" id="booking_firstName" ng-model="vm.state.user.firstName">
+        </div>
       </div>
 
-      <div class="col-sm-6">
-        <label for="booking_firstName">Prénom</label>
-        <input type="text" class="form-control" id="booking_firstName" ng-model="vm.booking.firstName">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <label for="booking_email">Email</label>
+          <input type="email" class="form-control" id="booking_email" ng-model="vm.state.user.email">
+        </div>
+
+        <div class="col-sm-6 form-group">
+          <label for="booking_rib">RIB</label>
+          <input type="text" class="form-control" id="booking_rib" ng-model="vm.state.user.rib">
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-sm-12 form-group text-center" style="margin: 20px 0;" ng-disabled="!vm.state.user.lastName.length || !vm.state.user.firstName.length">
+          <button type="submit" class="btn btn-success btn-lg" ng-click="vm.saveBooking()">Valider</button>
+        </div>
       </div>
 
-      <div class="text-center" style="margin: 60px 0;" ng-disabled="!vm.booking.lastName || !vm.booking.firstName">
-        <button type="submit" class="btn btn-success btn-lg" ng-click="vm.saveBooking()">Valider</button>
-      </div>
     </div>
 
   </form>

@@ -14,10 +14,10 @@
       <tbody> 
         <tr ng-repeat="flight in vm.flights" ng-click="vm.onFlightClicked({flight: flight})"> 
           <th scope="row">{{$index+1}}</th> 
-          <td>{{flight.departureCity}}</td> 
-          <td>{{flight.arrivalCity}}</td> 
-          <td>{{flight.airline}}</td> 
-          <td>{{flight.date | date:"'le' dd/MM/yyyy 'à' hh:mm"}}</td> 
+          <td>{{flight.departure_city}}</td> 
+          <td>{{flight.arrival_city}}</td> 
+          <td>{{flight.company}}</td> 
+          <td>{{flight.departure_date | date:"'le' dd/MM/yyyy 'à' hh:mm"}}</td> 
         <tr> 
       </tbody> 
     </table>

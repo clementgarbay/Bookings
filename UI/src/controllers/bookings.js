@@ -1,9 +1,12 @@
-import Booking from '../models/booking'
+import State from '../models/state'
+import { bookingFromState } from '../models/booking'
 
-export default function BookingsCtrl(BookingsService) {
+export default function BookingsCtrl(BookingsService, $location) {
   const vm = this
 
-  vm.booking = new Booking().toJS()
+  vm.state = new State().toJS()
+
+  // Data from API
   vm.departureCities = []
   vm.arrivalCities = []
   vm.flights = []
@@ -28,7 +31,7 @@ export default function BookingsCtrl(BookingsService) {
   }
 
   function selectDepartureCity(cityName) {
-    vm.booking = new Booking({departureCity: cityName}).toJS()
+    vm.state = new State({departureCity: cityName}).toJS()
 
     BookingsService
       .getArrivalCities(cityName)
@@ -38,41 +41,43 @@ export default function BookingsCtrl(BookingsService) {
   }
 
   function selectArrivalCity(cityName) {
-    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: cityName}).toJS()
+    vm.state = new State({departureCity: vm.state.departureCity, arrivalCity: cityName}).toJS()
 
     BookingsService
-      .getFlights(vm.booking.departureCity, vm.booking.arrivalCity)
+      .getFlights(vm.state.departureCity, vm.state.arrivalCity)
       .then(flight => {
-        vm.flight = flight
+        vm.flights = flight
       })
   }
 
   function selectFlight(flight) {
-    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity, flight: flight}).toJS()
+    vm.state = new State({departureCity: vm.state.departureCity, arrivalCity: vm.state.arrivalCity, flight: flight}).toJS()
 
     BookingsService
-      .getHotels(vm.booking.arrivalCity)
+      .getHotels(vm.state.arrivalCity)
       .then(hotels => {
         vm.hotels = hotels
       })
   }
 
   function selectHotel(hotel) {
-    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity, flight: vm.booking.flight, hotel: hotel}).toJS()
+    vm.state = new State({departureCity: vm.state.departureCity, arrivalCity: vm.state.arrivalCity, flight: vm.state.flight, hotel: hotel}).toJS()
   }
 
   function clearFlight() {
-    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity}).toJS()
+    vm.state = new State({departureCity: vm.state.departureCity, arrivalCity: vm.state.arrivalCity}).toJS()
+    vm.flights = []
+    vm.hotels = []
   }
 
   function clearHotel() {
-    vm.booking = new Booking({departureCity: vm.booking.departureCity, arrivalCity: vm.booking.arrivalCity, flight: vm.booking.flight}).toJS()
+    vm.state = new State({departureCity: vm.state.departureCity, arrivalCity: vm.state.arrivalCity, flight: vm.state.flight}).toJS()
   }
 
   function saveBooking() {
     BookingsService
-      .save(vm.booking)
-      .then(() => console.log('ok'))
+      .save(bookingFromState(vm.state))
+      .then(() => $location.path('bookings/success'), error => console.error(error))
   }
 
 }
