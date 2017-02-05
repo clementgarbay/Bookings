@@ -14,21 +14,28 @@ namespace BookingHotels
         public void add(BookingsData data)
         {
             SqlConnection MyC = new SqlConnection();
-            MyC.ConnectionString = "Data Source=(local);Initial Catalog=BOOKINGS_HOTELS;Integrated Security = true";
+            MyC.ConnectionString = "Data Source=(local)\\SQLEXPRESS;Initial Catalog=BOOKINGS_HOTELS;Integrated Security = true";
             MyC.Open();
             SqlCommand MyCom = new SqlCommand("CMD_ADD", MyC);
             MyCom.CommandType = CommandType.StoredProcedure;
+            MyCom.Parameters.Add("@city", SqlDbType.Text);
             MyCom.Parameters["@city"].Value = data.city;
+
             MyCom.Parameters.Add("@name", SqlDbType.Text);
             MyCom.Parameters["@name"].Value = data.name;
+
             MyCom.Parameters.Add("@rating", SqlDbType.Text);
             MyCom.Parameters["@rating"].Value = data.rating;
+
             MyCom.Parameters.Add("@rib", SqlDbType.Text);
             MyCom.Parameters["@rib"].Value = data.rib;
+
             MyCom.Parameters.Add("@email", SqlDbType.Text);
             MyCom.Parameters["@email"].Value = data.email;
+
             MyCom.Parameters.Add("@first_name", SqlDbType.Text);
             MyCom.Parameters["@first_name"].Value = data.first_name;
+
             MyCom.Parameters.Add("@last_name", SqlDbType.Text);
             MyCom.Parameters["@last_name"].Value = data.last_name;
             //int Res = Convert.ToInt32(MyCom.ExecuteScalar());
