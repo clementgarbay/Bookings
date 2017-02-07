@@ -7,6 +7,7 @@ using System.Linq;
 using System.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace BookingsManager
 {
@@ -18,16 +19,20 @@ namespace BookingsManager
 
             Flights flights = new Flights();
             Hotels hotels = new Hotels();
-            try
+            using (TransactionScope transaction = new TransactionScope())
             {
-                flights.add(data);
-                hotels.add(data);
-                addSuccess = true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error when BookingManager.book " + e);
-                throw e;
+                try
+                {
+                    flights.add(data);
+                    hotels.add(data);
+                    addSuccess = true;
+                    transaction.Complete();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error when BookingManager.book " + e);
+                    //throw e;
+                }
             }
             return addSuccess;
         }
